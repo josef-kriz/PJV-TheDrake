@@ -2,8 +2,13 @@ package ovoce.thedrake;
 
 public class Offset2D {
 
-    private final int x;
-    private final int y;
+    public final int x;
+    public final int y;
+
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        Offset2D test = new Offset2D(1, 2);
+    }
 
     public Offset2D(int x, int y) {
         this.x = x;
@@ -11,10 +16,11 @@ public class Offset2D {
     }
 
     public boolean equalsTo(int x, int y) {
-        return false; //TODO
+        return this.x == x && this.y == y;
     }
 
     public Offset2D yFlipped() {
-        return this; //TODO
+        return new Offset2D(this.x, -this.y);
     }
 }
+

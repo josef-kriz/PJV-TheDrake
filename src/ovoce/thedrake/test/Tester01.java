@@ -1,17 +1,9 @@
-package ovoce.thedrake;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+package ovoce.thedrake.test;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ovoce.thedrake.*;
 
-import ovoce.thedrake.Offset2D;
-import ovoce.thedrake.PlayingSide;
-import ovoce.thedrake.Troop;
-import ovoce.thedrake.TroopFace;
-import ovoce.thedrake.TroopInfo;
 
 public class Tester01 {
 
