@@ -11,6 +11,18 @@ public class TroopInfo {
         this.backPivot = backPivot;
     }
 
+    public TroopInfo(String name, Offset2D pivot){
+        this.name = name;
+        this.frontPivot = pivot;
+        this.backPivot = pivot;
+    }
+
+    public TroopInfo(String name){
+        this.name = name;
+        this.frontPivot = new Offset2D(1,1);
+        this.backPivot = new Offset2D(1,1);
+    }
+
     public String name() {
         return name;
     }
