@@ -1,5 +1,3 @@
-package test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -8,16 +6,16 @@ import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
-import cudlici.thedrake.Board;
-import cudlici.thedrake.EmptyTile;
-import cudlici.thedrake.Offset2D;
-import cudlici.thedrake.PlayingSide;
-import cudlici.thedrake.Tile;
-import cudlici.thedrake.TilePosition;
-import cudlici.thedrake.Troop;
-import cudlici.thedrake.TroopFace;
-import cudlici.thedrake.TroopInfo;
-import cudlici.thedrake.TroopTile;
+import ovoce.thedrake.Board;
+import ovoce.thedrake.EmptyTile;
+import ovoce.thedrake.Offset2D;
+import ovoce.thedrake.PlayingSide;
+import ovoce.thedrake.Tile;
+import ovoce.thedrake.TilePosition;
+import ovoce.thedrake.Troop;
+import ovoce.thedrake.TroopFace;
+import ovoce.thedrake.TroopInfo;
+import ovoce.thedrake.TroopTile;
 
 public class Tester02 {
 
@@ -56,7 +54,7 @@ public class Tester02 {
 	public void boardTest() {
 		Board board = new Board(5);
 		assertEquals(5, board.dimension());
-		
+
 		for(int row = 1; row <= 5; row++) {
 			for(char col = 'a'; col <= 'e'; col++) {
 				TilePosition pos = new TilePosition(col, row);
@@ -64,27 +62,27 @@ public class Tester02 {
 				assertTrue(board.tileAt(pos) instanceof EmptyTile);
 			}
 		}
-		
+
 		assertFalse(board.contains(new TilePosition("a0")));
 		assertFalse(board.contains(new TilePosition("a6")));
 		assertFalse(board.contains(new TilePosition("f1")));
 		assertFalse(board.contains(new TilePosition("f5")));
 		assertFalse(board.contains(new TilePosition("e0")));
 		assertFalse(board.contains(new TilePosition("e6")));
-		
+
 		TroopInfo drakeInfo = new TroopInfo("Drake");
 		Troop drake1 = new Troop(drakeInfo, PlayingSide.BLUE, TroopFace.FRONT);
 		Troop drake2 = new Troop(drakeInfo, PlayingSide.ORANGE, TroopFace.FRONT);
-		
-		TroopTile tile1 = new TroopTile(new TilePosition("c3"), drake1); 
+
+		TroopTile tile1 = new TroopTile(new TilePosition("c3"), drake1);
 		TroopTile tile2 = new TroopTile(new TilePosition("d4"), drake2);
-		
-		Board board2 = board.withTiles(tile1, tile2); 
+
+		Board board2 = board.withTiles(tile1, tile2);
 		assertSame(tile1, board2.tileAt(new TilePosition("c3")));
 		assertSame(tile2, board2.tileAt(new TilePosition("d4")));
-		
+
 		//Check, that the board was copied properly
-		assertTrue(board != board2);		
+		assertTrue(board != board2);
 		for(int row = 1; row <= 5; row++) {
 			for(char col = 'a'; col <= 'e'; col++) {
 				TilePosition pos = new TilePosition(col, row);

@@ -1,5 +1,3 @@
-package test;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -7,7 +5,7 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
 	Tester01.class,
-	Tester02.class	
+	Tester02.class
 })
 
 public class TestSuite02 {
