@@ -1,3 +1,4 @@
+//obsazená dlaždice
 package ovoce.thedrake;
 
 public class TroopTile extends Tile {

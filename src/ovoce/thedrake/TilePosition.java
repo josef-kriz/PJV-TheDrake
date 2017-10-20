@@ -1,3 +1,4 @@
+//pozice dlaždice na hracím plánu
 package ovoce.thedrake;
 
 public class TilePosition {

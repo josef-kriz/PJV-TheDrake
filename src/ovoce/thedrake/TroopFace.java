@@ -1,3 +1,4 @@
+//výčtový typ představující rubovou nebo lícovou stranu jednotky
 package ovoce.thedrake;
 
 public enum TroopFace {

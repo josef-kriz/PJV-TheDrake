@@ -1,3 +1,4 @@
+//prázdná dlaždice
 package ovoce.thedrake;
 
 public class EmptyTile extends Tile {

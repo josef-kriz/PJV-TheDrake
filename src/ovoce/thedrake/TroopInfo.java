@@ -1,3 +1,4 @@
+//popis chování jednotky ve hře
 package ovoce.thedrake;
 
 public class TroopInfo {

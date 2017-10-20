@@ -1,3 +1,4 @@
+//třída představuje jednotku ve hře
 package ovoce.thedrake;
 
 public class Troop {

@@ -1,3 +1,4 @@
+//Hrací plán
 package ovoce.thedrake;
 
 public class Board {
@@ -8,6 +9,18 @@ public class Board {
     // Všechny ostatní dlažice se berou jako prázdné.
     public Board(int dimension, Tile... tiles) {
         this.board = new Tile[dimension][dimension];
+
+//        Naplnění hracího plánu prázdnými dlaždicemi
+//        for (int i = 0; i < dimension; i++) {
+//            for (int j = 0; j < dimension; j++) {
+//                this.board[i][j] = new EmptyTile(board[i][j].position());
+//            }
+//        }
+
+//        Zanesení zadaných dlaždic do plánu
+//        for (int x = 0; x < tiles.length; x++) {
+//            this.board[tiles[x].position().i][tiles[x].position().j] = tiles[x];
+//        }
         //TODO nakopirovat tiles do this.board
     }
 
