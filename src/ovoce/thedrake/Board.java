@@ -11,17 +11,16 @@ public class Board {
         this.board = new Tile[dimension][dimension];
 
 //        Naplnění hracího plánu prázdnými dlaždicemi
-//        for (int i = 0; i < dimension; i++) {
-//            for (int j = 0; j < dimension; j++) {
-//                this.board[i][j] = new EmptyTile(board[i][j].position());
-//            }
-//        }
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                this.board[i][j] = new EmptyTile(new TilePosition(i, j));
+            }
+        }
 
 //        Zanesení zadaných dlaždic do plánu
-//        for (int x = 0; x < tiles.length; x++) {
-//            this.board[tiles[x].position().i][tiles[x].position().j] = tiles[x];
-//        }
-        //TODO nakopirovat tiles do this.board
+        for (Tile tile : tiles) {
+            this.board[tile.position().i][tile.position().j] = tile;
+        }
     }
 
     // Rozměr hrací desky
