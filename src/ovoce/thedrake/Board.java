@@ -35,8 +35,10 @@ public class Board {
 
     // Ověřuje, že pozice se nachází na hrací desce
     public boolean contains(TilePosition... positions) {
-        //TODO nejaky foreach?
-        return false;
+        for (TilePosition position : positions) {
+            if (position.i >= dimension() || position.i < 0 || position.j >= dimension() || position.j < 0) return false;
+        }
+        return true;
     }
 
     // Vytváří novou hrací desku s novými dlaždicemi z pole tiles. Všechny ostatní dlaždice zůstávají stejné
