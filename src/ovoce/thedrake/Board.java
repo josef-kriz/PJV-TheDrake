@@ -1,6 +1,9 @@
 //Hrací plán
 package ovoce.thedrake;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Board {
 
     private Tile[][] board;
@@ -43,7 +46,16 @@ public class Board {
 
     // Vytváří novou hrací desku s novými dlaždicemi z pole tiles. Všechny ostatní dlaždice zůstávají stejné
     public Board withTiles(Tile... tiles) {
-        //TODO vratit i stavajici
-        return new Board(this.board.length, tiles);
+        ArrayList<Tile> existingTiles = new ArrayList<>();
+
+        for (Tile[] boardTiles : board) {
+            for (Tile boardTile : boardTiles) {
+                if (boardTile.hasTroop()) existingTiles.add(boardTile);
+            }
+        }
+
+        existingTiles.addAll(Arrays.asList(tiles));
+
+        return new Board(board.length, existingTiles.toArray(new Tile[0]));
     }
 }
