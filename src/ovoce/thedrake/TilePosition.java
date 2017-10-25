@@ -1,4 +1,3 @@
-//pozice dlaždice na hracím plánu
 package ovoce.thedrake;
 
 public class TilePosition {
@@ -35,20 +34,28 @@ public class TilePosition {
 		return step(step.x, step.y);
 	}
 
+	public TilePosition stepByPlayingSide(Offset2D dir, PlayingSide side) {
+		if(side == PlayingSide.BLUE) {
+			return step(dir);
+		}
+
+		return step(dir.yFlipped());
+	}
+
 	public boolean isNextTo(TilePosition pos) {
 		if(this.i == pos.i && Math.abs(this.j - pos.j) == 1)
 			return true;
-		
+
 		if(this.j == pos.j && Math.abs(this.i - pos.i) == 1)
 			return true;
-		
+
 		return false;
 	}
-	
+
 	public boolean equalsTo(int i, int j) {
 		return this.i == i && this.j == j;
 	}
-	
+
 	public boolean equalsTo(char column, int row) {
 		return this.i == iFromColumn(column) && this.j == jFromRow(row);
 	}
@@ -56,11 +63,11 @@ public class TilePosition {
 	private int iFromColumn(char column) {
 		return column - 'a';
 	}
-	
+
 	private int jFromRow(int row) {
 		return row - 1;
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("%c%d", column(), row());
