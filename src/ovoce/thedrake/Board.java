@@ -181,7 +181,7 @@ public class Board {
         public Board captureOnly (TilePosition origin, TilePosition target){
             return withCaptureAndTiles(
                     tileAt(target).troop().info(), tileAt(target).troop().side(),
-                    new EmptyTile(target)
+                    new EmptyTile(target), new TroopTile(origin, tileAt(origin).troop().flipped())
             );
         }
 }

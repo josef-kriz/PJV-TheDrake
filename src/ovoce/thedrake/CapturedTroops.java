@@ -27,8 +27,13 @@ public class CapturedTroops {
 
     // Přidává nově zajatou jednotku na začátek seznamu zajatých jednotek daného hráče.
     public CapturedTroops withTroop(PlayingSide side, TroopInfo info) {
-        if (side == PlayingSide.BLUE) playerBlue.add(0, info);
-        else playerOrange.add(0, info);
-        return new CapturedTroops(playerBlue, playerOrange);
+        List<TroopInfo> newBlue = new ArrayList<TroopInfo>();
+        List<TroopInfo> newOrange = new ArrayList<TroopInfo>();
+        newBlue.addAll(playerBlue);
+        newOrange.addAll(playerOrange);
+
+        if (side == PlayingSide.BLUE) newBlue.add(0, info);
+        else newOrange.add(0, info);
+        return new CapturedTroops(newBlue, newOrange);
     }
 }
