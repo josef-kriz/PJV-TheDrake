@@ -155,7 +155,7 @@ public class Board {
         public Board stepOnly (TilePosition origin, TilePosition target){
            return withTiles(
                 new EmptyTile(origin),
-                new TroopTile(target, tileAt(origin).troop())
+                new TroopTile(target, tileAt(origin).troop().flipped())
             );
         }
 
