@@ -1,6 +1,7 @@
 package ovoce.thedrake;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StrikeAction implements TroopAction {
@@ -12,14 +13,11 @@ public class StrikeAction implements TroopAction {
 
     @Override
     public List<BoardChange> changesFrom(TilePosition origin, PlayingSide side, Board board) {
-        List<BoardChange> result = new ArrayList<>();
         TilePosition target = origin.stepByPlayingSide(direction, side);
 
-        while(board.canCaptureOnly(origin, target)) {
-            result.add(new CaptureOnly(board, origin, target));
-            target = target.stepByPlayingSide(direction, side);
-        }
+        if(board.canCaptureOnly(origin, target))
+            return Collections.singletonList(new CaptureOnly(board, origin, target));
 
-        return result;
+        return Collections.emptyList();
     }
 }
