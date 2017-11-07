@@ -110,7 +110,7 @@ public class Tester04 {
 		expectedFromStack.add(new PlaceFromStack(state, new TilePosition("b2")));
 		expectedFromStack.add(new PlaceFromStack(state, new TilePosition("a3")));
 		expectedFromStack.add(new PlaceFromStack(state, new TilePosition("d2")));
-//		assertEquals(expectedFromStack, actualFromStack);
+		assertEquals(expectedFromStack, actualFromStack);
 		
 		Set<Move> actualAll = new HashSet<Move>(state.allMoves());
 		Set<Move> expectedAll = new HashSet<Move>(expectedFromStack);

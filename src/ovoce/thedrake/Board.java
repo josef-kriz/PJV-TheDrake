@@ -187,31 +187,73 @@ public class Board implements Iterable<Tile>{
 
     @Override
     public Iterator<Tile> iterator() {
-        return new Iterator<Tile>() {
-            private int i = 0;
-            private int j = 0;
+        return new BoardIterator();
+    }
 
-            @Override
-            public boolean hasNext() {
-                if (i == 3 && j == 3) return true;
-                return i != board.length - 1 || j != board[i].length - 1;
+    private class BoardIterator implements Iterator<Tile> {
+        private int i;
+        private int j;
+        private boolean last = false;
+
+        public BoardIterator() {
+            i = 0;
+            j = 0;
         }
 
-            @Override
-            public Tile next() {
-                if (!hasNext()) throw new NoSuchElementException();
-
-                Tile result;
-
-                result = board[i][j];
-                i++;
-                if (i == board.length) {
-                    i = 0;
-                    j++;
+        @Override
+        public boolean hasNext() {
+            if (last)
+                return false;
+            if (i + 1 == board.length) {
+                if (j + 1 == board[i].length) {
+                    last = true;
                 }
-
-                return result;
             }
-        };
+            return true;
+        }
+
+        @Override
+        public Tile next() {
+            int temp_i = i;
+            int temp_j = j;
+            i++;
+            if (i == board.length) {
+                j++;
+                i = 0;
+                if (j == board.length) {
+                    j = 0;
+                }
+            }
+
+            return board[temp_i][temp_j];
+        }
     }
+
+//    @Override
+//    public Iterator<Tile> iterator() {
+//        return new Iterator<Tile>() {
+//            private int i = 0;
+//            private int j = 0;
+//
+//            @Override
+//            public boolean hasNext() {
+//                return i != board.length - 1 || j != board[i].length - 1;
+//        }
+//
+//            @Override
+//            public Tile next() {
+//
+//                Tile result;
+//
+//                result = board[i][j];
+//                i++;
+//                if (i == board.length) {
+//                    i = 0;
+//                    j++;
+//                }
+//
+//                return result;
+//            }
+//        };
+//    }
 }

@@ -28,7 +28,7 @@ public class Troop {
             changes.addAll(action.changesFrom(pos,side,board));
         return changes;
     }
-    
+
     public TroopInfo info() {
         return this.info;
     }
