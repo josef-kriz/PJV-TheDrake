@@ -1,10 +1,10 @@
 //Hrací plán
 package ovoce.thedrake;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+import java.util.function.Consumer;
 
-public class Board {
+public class Board implements Iterable<Tile>{
 
     private Tile[][] board;
     private CapturedTroops capturedTroops;
@@ -184,4 +184,34 @@ public class Board {
                     new EmptyTile(target), new TroopTile(origin, tileAt(origin).troop().flipped())
             );
         }
+
+    @Override
+    public Iterator<Tile> iterator() {
+        return new Iterator<Tile>() {
+            private int i = 0;
+            private int j = 0;
+
+            @Override
+            public boolean hasNext() {
+                if (i == 3 && j == 3) return true;
+                return i != board.length - 1 || j != board[i].length - 1;
+        }
+
+            @Override
+            public Tile next() {
+                if (!hasNext()) throw new NoSuchElementException();
+
+                Tile result;
+
+                result = board[i][j];
+                i++;
+                if (i == board.length) {
+                    i = 0;
+                    j++;
+                }
+
+                return result;
+            }
+        };
+    }
 }

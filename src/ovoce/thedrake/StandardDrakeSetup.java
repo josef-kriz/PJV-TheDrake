@@ -1,15 +1,34 @@
 package ovoce.thedrake;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class StandardDrakeSetup implements TheDrakeSetup {
 	
-	@Override
+	private HashMap<String, TroopInfo> names;
+
+    public StandardDrakeSetup() {
+        names = new HashMap<>();
+        for (TroopInfo info : troops()) {
+            names.put(info.name(), info);
+        };
+    }
+
+    @Override
 	public List<TroopInfo> troops() {
 		return Arrays.asList(DRAKE, CLUBMAN, MONK, SPEARMAN, SWORDSMAN, ARCHER);
-	}	
-	
+	}
+
+	@Override
+	public TroopInfo infoByName(String name) {
+        if (names.get(name) != null) {
+            return names.get(name);
+        } else {
+            throw new IllegalArgumentException();
+        }
+	}
+
 	public final TroopInfo DRAKE = new TroopInfo(
 			"Drake",
 			Arrays.asList(

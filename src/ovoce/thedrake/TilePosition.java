@@ -52,6 +52,23 @@ public class TilePosition {
 		return false;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		TilePosition position = (TilePosition) o;
+
+		return equalsTo(position.i, position.j);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = i;
+		result = 31 * result + j;
+		return result;
+	}
+
 	public boolean equalsTo(int i, int j) {
 		return this.i == i && this.j == j;
 	}

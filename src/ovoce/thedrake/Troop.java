@@ -18,7 +18,7 @@ public class Troop {
     public Troop(TroopInfo info, PlayingSide side) {
         this.info = info;
         this.side = side;
-        this.face = TroopFace.BACK;
+        this.face = TroopFace.FRONT;
     }
 
     // Všechny změny desky, které může jednotka provést na desce board, pokud stojí na pozici pos.
