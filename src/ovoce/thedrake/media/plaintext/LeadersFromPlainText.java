@@ -3,13 +3,13 @@ package ovoce.thedrake.media.plaintext;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import cudlici.thedrake.game.BothLeadersPlaced;
-import cudlici.thedrake.game.Leaders;
-import cudlici.thedrake.game.NoLeadersPlaced;
-import cudlici.thedrake.game.OneLeaderPlaced;
-import cudlici.thedrake.game.PlayingSide;
-import cudlici.thedrake.game.TheDrakeSetup;
-import cudlici.thedrake.game.TilePosition;
+import ovoce.thedrake.game.BothLeadersPlaced;
+import ovoce.thedrake.game.Leaders;
+import ovoce.thedrake.game.NoLeadersPlaced;
+import ovoce.thedrake.game.OneLeaderPlaced;
+import ovoce.thedrake.game.PlayingSide;
+import ovoce.thedrake.game.TheDrakeSetup;
+import ovoce.thedrake.game.TilePosition;
 
 public class LeadersFromPlainText {
 	private final BufferedReader reader;

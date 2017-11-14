@@ -25,7 +25,6 @@ public class BoardPlainTextMedia extends PrintMedia implements BoardMedia<Void> 
 		w.println(board.dimension());
 		for(Tile tile : board) {
 			tile.putToMedia(tileMedia);
-			w.println();
 		}
 		
 		capturedMedia.putCapturedTroops(board.captured());

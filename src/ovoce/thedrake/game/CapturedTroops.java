@@ -14,7 +14,7 @@ public class CapturedTroops {
         this.playerOrange = new ArrayList<>();
     }
 
-    private CapturedTroops(List<TroopInfo> playerBlue, List<TroopInfo> playerOrange) {
+    public CapturedTroops(List<TroopInfo> playerBlue, List<TroopInfo> playerOrange) {
         this.playerBlue = playerBlue;
         this.playerOrange = playerOrange;
     }
