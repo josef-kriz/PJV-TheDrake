@@ -27,7 +27,7 @@ public class CapturedTroopsPlainTextMedia extends PrintMedia implements Captured
 
         w.printf("Captured ORANGE: %d",captured.troops(PlayingSide.ORANGE).size());
         for (TroopInfo troop : captured.troops(PlayingSide.ORANGE)) {
-            w.print("\n" + troop.name());
+            w.printf("\n%s", troop.name());
         }
         return null;
     }

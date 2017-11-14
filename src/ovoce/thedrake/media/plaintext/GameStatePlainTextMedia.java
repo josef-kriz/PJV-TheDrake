@@ -42,7 +42,7 @@ public class GameStatePlainTextMedia extends PrintMedia implements GameStateMedi
         w.println(state.guardsCount());
         w.println(state.sideOnTurn().toString());
         troopMedia.putBasicTroopStacks((BasicTroopStacks)state.troopStacks());
-        leadersMedia.putBothLeadersPlaced((BothLeadersPlaced)state.leaders());
+        leadersMedia.putBothLeadersPlaced(state.leaders());
         boardMedia.putBoard(state.board());
         return null;
     }
@@ -55,7 +55,7 @@ public class GameStatePlainTextMedia extends PrintMedia implements GameStateMedi
         w.println("4");
         w.println(state.sideOnTurn().toString());
         troopMedia.putBasicTroopStacks((BasicTroopStacks)state.troopStacks());
-        leadersMedia.putBothLeadersPlaced((BothLeadersPlaced)state.leaders());
+        leadersMedia.putBothLeadersPlaced(state.leaders());
         boardMedia.putBoard(state.board());
         return null;
     }
@@ -68,7 +68,7 @@ public class GameStatePlainTextMedia extends PrintMedia implements GameStateMedi
         w.println("4");
         w.println(state.sideOnTurn().toString());
         troopMedia.putBasicTroopStacks((BasicTroopStacks)state.troopStacks());
-        leadersMedia.putBothLeadersPlaced((BothLeadersPlaced)state.leaders());
+        leadersMedia.putOneLeaderPlaced((OneLeaderPlaced)state.leaders());
         boardMedia.putBoard(state.board());
         return null;
     }
