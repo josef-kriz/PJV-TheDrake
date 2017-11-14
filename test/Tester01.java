@@ -4,11 +4,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import ovoce.thedrake.Offset2D;
-import ovoce.thedrake.PlayingSide;
-import ovoce.thedrake.Troop;
-import ovoce.thedrake.TroopFace;
-import ovoce.thedrake.TroopInfo;
+import ovoce.thedrake.game.Offset2D;
+import ovoce.thedrake.game.PlayingSide;
+import ovoce.thedrake.game.Troop;
+import ovoce.thedrake.game.TroopFace;
+import ovoce.thedrake.game.TroopInfo;
 
 public class Tester01 {
 

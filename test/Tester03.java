@@ -10,20 +10,20 @@ import java.util.List;
 
 import org.junit.Test;
 
-import ovoce.thedrake.Board;
-import ovoce.thedrake.BoardChange;
-import ovoce.thedrake.CaptureOnly;
-import ovoce.thedrake.CapturedTroops;
-import ovoce.thedrake.PlayingSide;
-import ovoce.thedrake.StandardDrakeSetup;
-import ovoce.thedrake.StepAndCapture;
-import ovoce.thedrake.StepOnly;
-import ovoce.thedrake.StrikeAction;
-import ovoce.thedrake.TilePosition;
-import ovoce.thedrake.Troop;
-import ovoce.thedrake.TroopFace;
-import ovoce.thedrake.TroopInfo;
-import ovoce.thedrake.TroopTile;
+import ovoce.thedrake.game.Board;
+import ovoce.thedrake.game.BoardChange;
+import ovoce.thedrake.game.CaptureOnly;
+import ovoce.thedrake.game.CapturedTroops;
+import ovoce.thedrake.game.PlayingSide;
+import ovoce.thedrake.game.StandardDrakeSetup;
+import ovoce.thedrake.game.StepAndCapture;
+import ovoce.thedrake.game.StepOnly;
+import ovoce.thedrake.game.StrikeAction;
+import ovoce.thedrake.game.TilePosition;
+import ovoce.thedrake.game.Troop;
+import ovoce.thedrake.game.TroopFace;
+import ovoce.thedrake.game.TroopInfo;
+import ovoce.thedrake.game.TroopTile;
 
 public class Tester03 {
 

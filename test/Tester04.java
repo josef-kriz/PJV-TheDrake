@@ -12,24 +12,24 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import ovoce.thedrake.BasicTroopStacks;
-import ovoce.thedrake.Board;
-import ovoce.thedrake.BoardMove;
-import ovoce.thedrake.BothLeadersPlaced;
-import ovoce.thedrake.CaptureOnly;
-import ovoce.thedrake.CapturedTroops;
-import ovoce.thedrake.MiddleGameState;
-import ovoce.thedrake.Move;
-import ovoce.thedrake.PlaceFromStack;
-import ovoce.thedrake.PlayingSide;
-import ovoce.thedrake.StandardDrakeSetup;
-import ovoce.thedrake.StepAndCapture;
-import ovoce.thedrake.StepOnly;
-import ovoce.thedrake.Tile;
-import ovoce.thedrake.TilePosition;
-import ovoce.thedrake.Troop;
-import ovoce.thedrake.TroopFace;
-import ovoce.thedrake.TroopTile;
+import ovoce.thedrake.game.BasicTroopStacks;
+import ovoce.thedrake.game.Board;
+import ovoce.thedrake.game.BoardMove;
+import ovoce.thedrake.game.BothLeadersPlaced;
+import ovoce.thedrake.game.CaptureOnly;
+import ovoce.thedrake.game.CapturedTroops;
+import ovoce.thedrake.game.MiddleGameState;
+import ovoce.thedrake.game.Move;
+import ovoce.thedrake.game.PlaceFromStack;
+import ovoce.thedrake.game.PlayingSide;
+import ovoce.thedrake.game.StandardDrakeSetup;
+import ovoce.thedrake.game.StepAndCapture;
+import ovoce.thedrake.game.StepOnly;
+import ovoce.thedrake.game.Tile;
+import ovoce.thedrake.game.TilePosition;
+import ovoce.thedrake.game.Troop;
+import ovoce.thedrake.game.TroopFace;
+import ovoce.thedrake.game.TroopTile;
 
 public class Tester04 {
 
