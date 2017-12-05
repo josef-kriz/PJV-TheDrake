@@ -1,0 +1,23 @@
+#menu-wrapper {
+    -fx-background-color: #f4dc42;
+}
+
+.menu-item-wrapper {
+    -fx-padding: 0.3em;
+}
+
+.menu-item {
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 0.2em;
+    -fx-background-color: #794b89;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, black, 8, 0.0, 2, 0);
+    -fx-border-radius: 0.5em;
+    -fx-pref-width: 100em;
+    -fx-pref-height: 50em;
+    -fx-text-alignment: left;
+    -fx-font-size: 2.5em;
+    -fx-font-family: impact;
+    -fx-cursor: hand;
+}
