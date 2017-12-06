@@ -40,9 +40,9 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-item-wrapper">
                      <children>
-                        <Button minWidth="0.0" mnemonicParsing="false" prefHeight="82.0" styleClass="menu-item" text="Hra dvou hráčů" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                        <Button minWidth="0.0" mnemonicParsing="false" onMouseEntered="#showMultiplayer" onMouseExited="#hideLabel" prefHeight="82.0" styleClass="menu-item" textAlignment="CENTER" textFill="WHITE">
                            <graphic>
-                              <ImageView fitHeight="111.0" fitWidth="170.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="146.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@media/multiplayer.png" />
                                  </image>
@@ -53,12 +53,12 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-item-wrapper" GridPane.columnIndex="1">
                      <children>
-                        <Button id="computer-button" mnemonicParsing="false" prefHeight="91.0" prefWidth="225.0" styleClass="menu-item" text="Hra proti počítači" textAlignment="CENTER" wrapText="true">
+                        <Button id="computer-button" mnemonicParsing="false" onMouseEntered="#showComputer" onMouseExited="#hideLabel" prefHeight="91.0" prefWidth="225.0" styleClass="menu-item" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                            <graphic>
-                              <ImageView fitHeight="106.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="129.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@media/computer.png" />
                                  </image>
@@ -69,9 +69,9 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-item-wrapper" GridPane.rowIndex="1">
                      <children>
-                        <Button id="internet-button" mnemonicParsing="false" prefHeight="171.0" prefWidth="293.0" styleClass="menu-item" text="Hra po internetu" textAlignment="CENTER" wrapText="true">
+                        <Button id="internet-button" mnemonicParsing="false" onMouseEntered="#showInternet" onMouseExited="#hideLabel" prefHeight="171.0" prefWidth="293.0" styleClass="menu-item" textAlignment="CENTER">
                            <graphic>
-                              <ImageView fitHeight="107.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="143.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@media/internet.png" />
                                  </image>
@@ -82,9 +82,9 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-item-wrapper" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Button id="exit-button" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#exit" prefHeight="169.0" prefWidth="190.0" styleClass="menu-item" text="Konec" textAlignment="CENTER" wrapText="true">
+                        <Button id="exit-button" mnemonicParsing="false" onAction="#exit" onMouseEntered="#showExit" onMouseExited="#hideLabel" prefHeight="169.0" prefWidth="190.0" styleClass="menu-item" textAlignment="CENTER">
                            <graphic>
-                              <ImageView fitHeight="105.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="128.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@media/exit.png" />
                                  </image>
@@ -103,7 +103,10 @@
             <Pane prefHeight="419.0" prefWidth="227.0" BorderPane.alignment="CENTER" />
          </right>
          <bottom>
-            <HBox prefHeight="101.0" prefWidth="1024.0" BorderPane.alignment="CENTER" />
+            <HBox alignment="TOP_CENTER" prefHeight="114.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="menu-label" fx:id="label" alignment="TOP_CENTER" />
+               </children></HBox>
          </bottom></BorderPane>
    </children>
 </AnchorPane>

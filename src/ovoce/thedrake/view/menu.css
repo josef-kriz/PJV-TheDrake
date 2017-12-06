@@ -1,5 +1,8 @@
 #menu-wrapper {
-    -fx-background-color: #f4dc42;
+    -fx-background-position: left top, center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+    -fx-background-image: url("media/bg.png");
 }
 
 .menu-item-wrapper {
@@ -11,13 +14,18 @@
     -fx-border-style: solid;
     -fx-border-width: 0.2em;
     -fx-background-color: #794b89;
-    -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, black, 8, 0.0, 2, 0);
     -fx-border-radius: 0.5em;
     -fx-pref-width: 100em;
     -fx-pref-height: 50em;
     -fx-text-alignment: left;
+    -fx-cursor: hand;
+}
+
+#menu-label {
+    -fx-padding: 0.5em;
     -fx-font-size: 2.5em;
     -fx-font-family: impact;
-    -fx-cursor: hand;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow(gaussian, white, 2, 1, 1, 1);
 }
