@@ -35,56 +35,60 @@ public class TilePosition {
 	}
 
 	public TilePosition stepByPlayingSide(Offset2D dir, PlayingSide side) {
-		if(side == PlayingSide.BLUE) {
-			return step(dir);
-		}
-
-		return step(dir.yFlipped());
-	}
-
+  	if(side == PlayingSide.BLUE) {
+  		return step(dir);
+  	}
+  	
+  	return step(dir.yFlipped());
+  }
+	
 	public boolean isNextTo(TilePosition pos) {
 		if(this.i == pos.i && Math.abs(this.j - pos.j) == 1)
 			return true;
-
+		
 		if(this.j == pos.j && Math.abs(this.i - pos.i) == 1)
 			return true;
-
+		
 		return false;
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		TilePosition position = (TilePosition) o;
-
-		return equalsTo(position.i, position.j);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = i;
-		result = 31 * result + j;
-		return result;
-	}
-
+	
 	public boolean equalsTo(int i, int j) {
 		return this.i == i && this.j == j;
 	}
-
+	
 	public boolean equalsTo(char column, int row) {
 		return this.i == iFromColumn(column) && this.j == jFromRow(row);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TilePosition other = (TilePosition) obj;
+		return equalsTo(other.i, other.j);
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + i;
+		result = prime * result + j;
+		return result;
 	}
 
 	private int iFromColumn(char column) {
 		return column - 'a';
 	}
-
+	
 	private int jFromRow(int row) {
 		return row - 1;
 	}
-
+	
 	@Override
 	public String toString() {
 		return String.format("%c%d", column(), row());

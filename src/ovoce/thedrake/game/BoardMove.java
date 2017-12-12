@@ -28,10 +28,22 @@ public class BoardMove extends Move {
 					opponent);
 		}
 		
+		BothLeadersPlaced leaders =  initialState().leaders();
+		TilePosition leaderPos = leaders.position(onTurn);
+		if(boardChange.origin().equals(leaderPos)) {
+			if(onTurn == PlayingSide.BLUE) {
+				leaders = new BothLeadersPlaced(
+						boardChange.target(), leaders.position(PlayingSide.ORANGE));
+			} else {
+				leaders = new BothLeadersPlaced(
+						leaders.position(PlayingSide.BLUE), boardChange.target());
+			}
+		}
+		
 		return new MiddleGameState(
 				boardChange.resultBoard(),
 				initialState().troopStacks(), 
-				initialState().leaders(),
+				leaders,
 				opponent);
 	}
 	

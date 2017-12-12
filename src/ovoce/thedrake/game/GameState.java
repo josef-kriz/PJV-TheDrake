@@ -1,8 +1,8 @@
 package ovoce.thedrake.game;
 
-import ovoce.thedrake.media.GameStateMedia;
-
 import java.util.List;
+
+import ovoce.thedrake.media.GameStateMedia;
 
 public interface GameState {
 	public Board board();
@@ -14,6 +14,6 @@ public interface GameState {
   public List<Move> allMoves();
   public List<Move> boardMoves(TilePosition position);
   public List<Move> stackMoves();
-
+  
   public <T> T putToMedia(GameStateMedia<T> media);
 }

@@ -4,19 +4,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class StrikeAction implements TroopAction {
-    private Offset2D direction;
-
-    public StrikeAction(int dirX, int dirY) {
-        this.direction = new Offset2D(dirX, dirY);
-    }
-
-    @Override
-    public List<BoardChange> changesFrom(TilePosition origin, PlayingSide side, Board board) {
-        TilePosition target = origin.stepByPlayingSide(direction, side);
-
-        if(board.canCaptureOnly(origin, target))
-            return Collections.singletonList(new CaptureOnly(board, origin, target));
-
-        return Collections.emptyList();
-    }
+  
+	private Offset2D position;
+  
+  public StrikeAction(int posX, int posY) {
+    this.position = new Offset2D(posX, posY);
+  }
+  
+  @Override
+  public List<BoardChange> changesFrom(TilePosition origin, PlayingSide side, Board board) {
+  	TilePosition target = origin.stepByPlayingSide(position, side);
+  	 
+  	if(board.canCaptureOnly(origin, target)) 
+  	  return Collections.singletonList(new CaptureOnly(board, origin, target));
+  	
+  	return Collections.emptyList();
+  }
 }

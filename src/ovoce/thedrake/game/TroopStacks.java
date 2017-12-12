@@ -1,8 +1,8 @@
 package ovoce.thedrake.game;
 
-import ovoce.thedrake.media.TroopStacksMedia;
-
 import java.util.List;
+
+import ovoce.thedrake.media.TroopStacksMedia;
 
 public interface TroopStacks {
 	public Troop peek(PlayingSide side);

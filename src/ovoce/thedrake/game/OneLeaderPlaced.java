@@ -24,17 +24,17 @@ public class OneLeaderPlaced implements Leaders {
 		
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public <T> T putToMedia(LeadersMedia<T> media) {
-		return media.putOneLeaderPlaced(this);
-	}
-
+	
 	@Override
 	public boolean leaderOn(PlayingSide side, TilePosition position) {
 		if(!isPlaced(side))
 			return false;
 		
 		return position(side).equals(position);
+	}
+	
+	@Override
+	public <T> T putToMedia(LeadersMedia<T> media) {
+		return media.putOneLeaderPlaced(this);
 	}
 }

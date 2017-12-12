@@ -1,12 +1,13 @@
 package ovoce.thedrake.game;
 
 public class StepOnly extends BoardChange {
-    public StepOnly(Board initialBoard, TilePosition origin, TilePosition target) {
-        super(initialBoard, origin, target);
-    }
+	
+	public StepOnly(Board board, TilePosition origin, TilePosition target) {
+		super(board, origin, target);
+	}
 
-    @Override
-    public Board resultBoard() {
-        return super.initialBoard().stepOnly(super.origin(),super.target());
-    }
+	@Override
+	public Board resultBoard() {
+		return initialBoard().stepOnly(origin(), target());				
+	}
 }

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import ovoce.thedrake.media.GameStateMedia;
-import ovoce.thedrake.media.GameStateMedia;
 
 public class PlacingLeadersGameState extends BaseGameState {
 	
@@ -72,16 +71,14 @@ public class PlacingLeadersGameState extends BaseGameState {
 
 		return result;		
 	}
-
-	@Override
-	public <T> T putToMedia(GameStateMedia<T> media) {
-		return media.putPlacingLeadersGameState(this);
-	}
-
+	
 	@Override
 	public boolean isVictory() {
 		return false;
 	}
 	
-
+	@Override
+	public <T> T putToMedia(GameStateMedia<T> media) {
+		return media.putPlacingLeadersGameState(this);
+	}
 }

@@ -44,7 +44,7 @@ public abstract class BoardChange {
 		if (getClass() != obj.getClass())
 			return false;
 		BoardChange other = (BoardChange) obj;
-		if (!(initialBoard == other.initialBoard)) {
+		if (initialBoard != other.initialBoard) {
 			return false;
 		}
 		if (origin == null) {

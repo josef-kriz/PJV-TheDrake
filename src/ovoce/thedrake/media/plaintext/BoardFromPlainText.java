@@ -27,7 +27,7 @@ public class BoardFromPlainText {
 		
 		TileFromPlainText tileFromReader = new TileFromPlainText(setup, reader);
 		for(int i = 0; i < tileCount; i++) {
-			TilePosition pos = new TilePosition(i % 4, i / 4);
+			TilePosition pos = new TilePosition(i % dimension, i / dimension);
 			tiles[i] = tileFromReader.readTile(pos);
 		}
 		

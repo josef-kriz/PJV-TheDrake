@@ -1,9 +1,12 @@
 package ovoce.thedrake.game;
 
-import ovoce.thedrake.media.GameStateMedia;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import ovoce.thedrake.media.GameStateMedia;
 
 public class MiddleGameState extends BaseGameState {
 		
@@ -26,90 +29,87 @@ public class MiddleGameState extends BaseGameState {
 	
 	@Override
 	public List<Move> allMoves() {
-        List<Move> result = new ArrayList<Move>();
-
-        for(Tile tile : board()) {
-            if (tile.hasTroop() && tile.troop().side() == sideOnTurn()) result.addAll(boardMoves(tile.position()));
-        }
-
-        result.addAll(stackMoves());
-        return result;
-	}
-
-	@Override
-	public List<Move> boardMoves(TilePosition position) {
 		List<Move> result = new ArrayList<>();
-		Troop troop = super.board().tileAt(position).troop();
-
-        for (TroopAction action : troop.info().actions(troop.face()))
-            for ( BoardChange change: action.changesFrom(position, sideOnTurn(), super.board()))
-                result.add(new BoardMove(this, change));
-
+		for(Tile tile : board()) {
+			result.addAll(boardMoves(tile.position()));			
+		}
+		
+		result.addAll(stackMoves());
+		return result;
+	}	
+	
+	@Override
+	public List<Move> boardMoves(TilePosition position) {		
+		if(!board().contains(position))
+			return Collections.emptyList();
+		
+		Tile tile = board().tileAt(position); 
+		if(!tile.hasTroop())
+			return Collections.emptyList();
+		
+		Troop troop = tile.troop(); 
+		if(troop.side() != sideOnTurn())
+			return Collections.emptyList();
+		
+		List<Move> result = new ArrayList<>();
+		for(BoardChange c : troop.changesFrom(position, board())) {
+			result.add(new BoardMove(this, c));
+		}
+		
 		return result;
 	}
-
+	
 	@Override
 	public List<Move> stackMoves() {
-		List<Move> result = new ArrayList<>();
 		Troop troop = troopStacks().peek(sideOnTurn());
+		Set<TilePosition> neighbours = new HashSet<TilePosition>();	
+		
 		for(Tile tile : board()) {
-		    TilePosition new1 = new TilePosition(tile.position().i + 1, tile.position().j);
-		    TilePosition new2 = new TilePosition(tile.position().i - 1, tile.position().j);
-		    TilePosition new3 = new TilePosition(tile.position().i, tile.position().j + 1);
-		    TilePosition new4 = new TilePosition(tile.position().i, tile.position().j - 1);
-
-			if (tile.acceptsTroop(troop)
-                    && (
-                        (super.board().contains(new1)
-                        && !super.board().canPlaceTo(troop, new1)
-                        &&  super.board().tileAt(new1).troop().side() == sideOnTurn())
-                    ||   (super.board().contains(new2)
-                        && !super.board().canPlaceTo(troop, new2)
-                        &&  super.board().tileAt(new2).troop().side() == sideOnTurn())
-                    ||    (super.board().contains(new3)
-                        && !super.board().canPlaceTo(troop, new3)
-                        &&  super.board().tileAt(new3).troop().side() == sideOnTurn())
-                    ||    (super.board().contains(new4)
-                        && !super.board().canPlaceTo(troop, new4)
-                        &&  super.board().tileAt(new4).troop().side() == sideOnTurn())
-            )) {
-			    result.add(new PlaceFromStack(this, tile.position()));
-            }
+			if(!tile.hasTroop())
+				continue;
+			 
+			if(tile.troop().side() != sideOnTurn())
+				continue;
+			
+			tryAddTile(tile, 0, 1, troop, neighbours);
+			tryAddTile(tile, 1, 0, troop, neighbours);
+			tryAddTile(tile, 0, -1, troop, neighbours);
+			tryAddTile(tile, -1, 0, troop, neighbours);
 		}
-
+		
+		List<Move> result = new ArrayList<>();
+		for(TilePosition target : neighbours) {
+			result.add(new PlaceFromStack(this, target));
+		}
+		
 		return result;
 	}
-
-	@Override
-	public <T> T putToMedia(GameStateMedia<T> media) {
-		return media.putMiddleGameState(this);
-	}
-
+	
 	@Override
 	public boolean isVictory() {
 		return false;
 	}
+
+	private void tryAddTile(Tile tile, int iStep, int jStep, Troop troop, Set<TilePosition> result) {
+		TilePosition target = tile.position().step(iStep, jStep);
+		if(!board().contains(target))
+			return;
+		
+		if(board().tileAt(target).acceptsTroop(troop))
+			result.add(target);
+	}
 		
 	public boolean canPlaceFromStack(TilePosition target) {
-        TilePosition new1 = new TilePosition(target.i + 1, target.j);
-        TilePosition new2 = new TilePosition(target.i - 1, target.j);
-        TilePosition new3 = new TilePosition(target.i, target.j + 1);
-        TilePosition new4 = new TilePosition(target.i, target.j - 1);
-        Troop troop = troopStacks().peek(sideOnTurn());
-		return super.board().canPlaceTo(troop, target) && (
-                (super.board().contains(new1)
-                        && !super.board().canPlaceTo(troop, new1)
-                        &&  super.board().tileAt(new1).troop().side() == sideOnTurn())
-                        ||   (super.board().contains(new2)
-                        && !super.board().canPlaceTo(troop, new2)
-                        &&  super.board().tileAt(new2).troop().side() == sideOnTurn())
-                        ||    (super.board().contains(new3)
-                        && !super.board().canPlaceTo(troop, new3)
-                        &&  super.board().tileAt(new3).troop().side() == sideOnTurn())
-                        ||    (super.board().contains(new4)
-                        && !super.board().canPlaceTo(troop, new4)
-                        &&  super.board().tileAt(new4).troop().side() == sideOnTurn())
-        );
+		if(troopStacks().troops(sideOnTurn()).isEmpty()) {
+			return false;
+		}
+		
+		if(!board().contains(target)) {
+			return false;
+		}		
+		
+		Troop troop = troopStacks().peek(sideOnTurn());
+		return board().tileAt(target).acceptsTroop(troop);	
 	}
 
 	public MiddleGameState placeFromStack(TilePosition target) {
@@ -120,5 +120,10 @@ public class MiddleGameState extends BaseGameState {
 				troopStacks().pop(sideOnTurn()),
 				leaders(),
 				sideOnTurn().opposite());
+	}
+	
+	@Override
+	public <T> T putToMedia(GameStateMedia<T> media) {
+		return media.putMiddleGameState(this);
 	}
 }

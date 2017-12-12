@@ -1,265 +1,204 @@
-//Hrací plán
 package ovoce.thedrake.game;
+
+import java.util.Iterator;
 
 import ovoce.thedrake.media.BoardMedia;
 
-import java.util.*;
+public class Board implements Iterable<Tile> {
+	private final Tile[][] grid;
+	private final int dimension;
+	private final CapturedTroops captured;
 
-public class Board implements Iterable<Tile>{
+	public Board(int dimension, CapturedTroops captured, Tile... tiles) {
+		this.dimension = dimension;
+		this.grid = fillGrid(emptyGrid(), tiles);
+		this.captured = captured;
+	}
+	
+	public Board(int dimension, Tile... tiles) {
+		this(dimension, new CapturedTroops(), tiles);
+	}
 
-    private Tile[][] board;
-    private CapturedTroops capturedTroops;
-
-    // Konstruktor. Vytvoří čtvercovou hrací desku zadaného rozměru se specefikovanými dlaždicemi.
-    // Všechny ostatní dlažice se berou jako prázdné.
-    public Board(int dimension, Tile... tiles) {
-        this.board = new Tile[dimension][dimension];
-        this.capturedTroops = new CapturedTroops();
-        fillBoard(tiles);
+	private Board(Tile[][] grid, CapturedTroops captured) {
+		this.dimension = grid.length;
+		this.grid = grid;
+		this.captured = captured;
+	}
+	
+	public int dimension() {
+		return dimension;
+	}
+	
+	public CapturedTroops captured() {
+		return captured;
+	}
+	
+	public boolean canTakeFrom(TilePosition origin) {
+		if(!contains(origin)) {
+			return false;
+		}
+		
+		if(!tileAt(origin).hasTroop()) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean canPlaceTo(Troop troop, TilePosition target) {
+		if(!contains(target)) {
+			return false;
+		}
+		
+		return tileAt(target).acceptsTroop(troop);
+	}
+	
+	public boolean canCaptureOn(Troop troop, TilePosition target) {
+		if(!contains(target)) {
+			return false;
+		}
+		
+		if(!tileAt(target).hasTroop()) {
+			return false;
+		}
+		
+		return tileAt(target).troop().side() == troop.side().opposite();
+	}
+	
+	public boolean canStepOnly(TilePosition origin, TilePosition target) {
+		return 
+				canTakeFrom(origin) &&
+				canPlaceTo(tileAt(origin).troop(), target);
+	}
+	
+	public boolean canCaptureOnly(TilePosition origin, TilePosition target) {
+		return 
+				canTakeFrom(origin) &&
+				canCaptureOn(tileAt(origin).troop(), target);
+	}
+	
+	public boolean canStepAndCapture(TilePosition origin, TilePosition target) {
+		return canCaptureOnly(origin, target);
+	}
+	
+	public Board stepOnly(TilePosition origin, TilePosition target) {
+		Troop troop = tileAt(origin).troop();		
+		return withTiles( 
+				new EmptyTile(origin),  
+				new TroopTile(target, troop.flipped())); 
+	}
+	
+	public Board stepAndCapture(TilePosition origin, TilePosition target) {
+		Troop attacker = tileAt(origin).troop();
+		Troop targetTroop = tileAt(target).troop();
+		
+		return withCaptureAndTiles(
+				targetTroop.info(),
+				targetTroop.side(), 
+				new EmptyTile(origin),  
+				new TroopTile(target, attacker.flipped()));	
+	}
+	
+	public Board captureOnly(TilePosition origin, TilePosition target) {
+		Troop attacker = tileAt(origin).troop();
+		Troop targetTroop = tileAt(target).troop();
+		
+		return withCaptureAndTiles(
+				targetTroop.info(),
+				targetTroop.side(),
+				new TroopTile(origin, attacker.flipped()),  
+				new EmptyTile(target));
+	}
+	
+	public Board withTiles(Tile... tiles) {
+		return new Board(fillGrid(cloneGrid(), tiles), captured);
+	}
+	
+	public Board withCaptureAndTiles(TroopInfo info, PlayingSide side, Tile... tiles) {
+		return new Board(
+				fillGrid(cloneGrid(), tiles), 
+				captured().withTroop(side, info));
+	}
+		
+	private Tile[][] emptyGrid() {
+		Tile[][] grid = new Tile[dimension][dimension];
+		
+		for(int j = 0; j < dimension; j++) {
+			for(int i = 0; i < dimension; i++) {
+				if(grid[i][j] == null) {
+					grid[i][j] = new EmptyTile(new TilePosition(i, j));
+				}
+			}
+		}
+		
+		return grid;
+	}
+	
+	private Tile[][] fillGrid(Tile[][] grid, Tile... tiles) {		
+		for(Tile tile : tiles) {
+			grid[tile.position().i][tile.position().j] = tile;
+		}		
+		
+		return grid;
+	}
+	
+	private Tile[][] cloneGrid() {
+		Tile[][] newGrid = new Tile[dimension][];
+    for(int i = 0; i < grid.length; i++)
+      newGrid[i] = grid[i].clone();
+    
+    return newGrid;
+  }
+	
+	public Tile tileAt(TilePosition position) {
+    if(!contains(position)) {
+      throw new IllegalArgumentException();
     }
+    
+    return grid[position.i][position.j];
+  }
+		
+	public boolean contains(TilePosition... positions) {
+		for(TilePosition pos : positions) {
+			if(pos.i < 0)
+				return false;
+			else if(pos.i >= dimension) 
+				return false;
+			else if(pos.j < 0)
+				return false;
+			else if(pos.j >= dimension) 
+				return false;
+		}
+		
+		return true;				
+	}
+	
+	public <T> T putToMedia(BoardMedia<T> media) {
+		return media.putBoard(this);
+	}
+	
+	@Override
+	public Iterator<Tile> iterator() {
+		return new BoardIterator();
+	}
+	
+	public class BoardIterator implements Iterator<Tile> {
+		private int pos;
+		
+		public BoardIterator() {
+			this.pos = 0;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return pos < 16;
+		}
 
-    // Konstruktor. Vytvoří čtvercovou hrací desku zadaného rozměru se specefikovanými dlaždicemi.
-    // Všechny ostatní dlažice se berou jako prázdné.
-    public Board(int dimension, CapturedTroops oldTroops, Tile... tiles) {
-        this.board = new Tile[dimension][dimension];
-        fillBoard(tiles);
-        this.capturedTroops = oldTroops;
-    }
-
-    private void fillBoard(Tile[] tiles) {
-        //        Naplnění hracího plánu prázdnými dlaždicemi
-        for (int i = 0; i < dimension(); i++) {
-            for (int j = 0; j < dimension(); j++) {
-                this.board[i][j] = new EmptyTile(new TilePosition(i, j));
-            }
-        }
-
-//        Zanesení zadaných dlaždic do plánu
-        for (Tile tile : tiles) {
-            this.board[tile.position().i][tile.position().j] = tile;
-        }
-    }
-    // Rozměr hrací desky
-    public int dimension() {
-        return this.board.length;
-    }
-
-    // Vrací dlaždici na zvolené pozici. Pokud je pozice mimo desku, vyhazuje IllegalArgumentException
-    public Tile tileAt(TilePosition position) {
-        if( contains( position))
-            return this.board[position.i][position.j];
-        throw new IllegalArgumentException();
-    }
-
-    // Ověřuje, že pozice se nachází na hrací desce
-    public boolean contains(TilePosition... positions) {
-        for (TilePosition position : positions) {
-            if (position.i >= dimension() || position.i < 0 || position.j >= dimension() || position.j < 0)
-                return false;
-        }
-        return true;
-    }
-
-    // Vytváří novou hrací desku s novými dlaždicemi z pole tiles. Všechny ostatní dlaždice zůstávají stejné
-    public Board withTiles(Tile... tiles) {
-        ArrayList<Tile> existingTiles = new ArrayList<>();
-
-        for (Tile[] boardTiles : board) {
-            for (Tile boardTile : boardTiles) {
-                if (boardTile.hasTroop()) existingTiles.add(boardTile);
-            }
-        }
-
-        existingTiles.addAll(Arrays.asList(tiles));
-
-        return new Board(board.length, capturedTroops, existingTiles.toArray(new Tile[0]));
-    }
-
-    //    nová board i se zajatými figurkami
-    public Board withCaptureAndTiles(TroopInfo info, PlayingSide side, Tile... tiles) {
-        Board newBoard = withTiles(tiles);
-        newBoard.capturedTroops = capturedTroops.withTroop(side, info);
-
-        return newBoard;
-    }
-
-    // Vrací zajaté jednotky
-    public CapturedTroops captured() {
-        return capturedTroops;
-    }
-
-    // Stojí na pozici origin jednotka?
-    public boolean canTakeFrom(TilePosition origin) {
-        if (contains(origin)) {
-            return tileAt(origin).hasTroop();
-        }
-        return false;
-    }
-
-    /*
-     * Lze na danou pozici postavit zadanou jednotku? Zde se řeší pouze
-     * jednotky na hrací ploše, nikoliv zásobník, takže se v podstatě
-     * pouze ptám, zda dlaždice na pozici target přijme danou jednotku.
-     */
-    public boolean canPlaceTo(Troop troop, TilePosition target) {
-        if( contains(target)){
-            return tileAt(target).acceptsTroop( troop );
-        }
-        return false;
-    }
-
-    // Může zadaná jednotka zajmout na pozici target soupeřovu jednotku?
-    public boolean canCaptureOn(Troop troop, TilePosition target) {
-        if( canTakeFrom( target ) && troop.side() != tileAt(target).troop().side() ) {
-            return true;
-        }
-        return false;
-    }
-
-/*
- * Stojí na políčku origin jednotka, která může udělat krok na pozici target
- * bez toho, aby tam zajala soupeřovu jednotku?
- */
-        public boolean canStepOnly (TilePosition origin, TilePosition target) {
-            if ( canTakeFrom( origin ) ) {
-                return canPlaceTo( tileAt(origin).troop(), target );
-            }
-            return false;
-        }
-
-/*
- * Stojí na políčku origin jednotka, která může zůstat na pozici origin
- * a zajmout soupeřovu jednotku na pozici target?
- */
-        public boolean canCaptureOnly (TilePosition origin, TilePosition target) {
-            if( canTakeFrom( origin )) {
-                return canCaptureOn(tileAt(origin).troop(), target);
-            }
-            return false;
-        }
-
-/*
- * Stojí na pozici origin jednotka, která může udělat krok na pozici target
- * a zajmout tam soupeřovu jednotku?
- */
-        public boolean canStepAndCapture (TilePosition origin, TilePosition target) {
-            if( canTakeFrom( origin )) {
-                return canCaptureOn(tileAt(origin).troop(), target);
-            }
-            return false;
-        }
-
-/*
- * Nová hrací deska, ve které jednotka na pozici origin se přesunula
- * na pozici target bez toho, aby zajala soupeřovu jednotku.
- */
-        public Board stepOnly (TilePosition origin, TilePosition target){
-           return withTiles(
-                new EmptyTile(origin),
-                new TroopTile(target, tileAt(origin).troop().flipped())
-            );
-        }
-
-/*
- * Nová hrací deska, ve které jednotka na pozici origin se přesunula
- * na pozici target, kde zajala soupeřovu jednotku.
- */
-        public Board stepAndCapture(TilePosition origin, TilePosition target) {
-        Troop attacker = tileAt(origin).troop();
-        Troop targetTroop = tileAt(target).troop();
-
-        return withCaptureAndTiles(
-                targetTroop.info(),
-                targetTroop.side(),
-                new EmptyTile(origin),
-                new TroopTile(target, attacker.flipped()));
-    }
-
-/*
- * Nová hrací deska, ve které jednotka zůstává stát na pozici origin
- * a zajme soupeřovu jednotku na pozici target.
- */
-        public Board captureOnly (TilePosition origin, TilePosition target){
-            return withCaptureAndTiles(
-                    tileAt(target).troop().info(), tileAt(target).troop().side(),
-                    new EmptyTile(target), new TroopTile(origin, tileAt(origin).troop().flipped())
-            );
-        }
-
-    @Override
-    public Iterator<Tile> iterator() {
-        return new BoardIterator();
-    }
-
-    private class BoardIterator implements Iterator<Tile> {
-        private int i;
-        private int j;
-        private boolean last = false;
-
-        public BoardIterator() {
-            i = 0;
-            j = 0;
-        }
-
-        @Override
-        public boolean hasNext() {
-            if (last)
-                return false;
-            if (i + 1 == board.length) {
-                if (j + 1 == board[i].length) {
-                    last = true;
-                }
-            }
-            return true;
-        }
-
-        @Override
-        public Tile next() {
-            int temp_i = i;
-            int temp_j = j;
-            i++;
-            if (i == board.length) {
-                j++;
-                i = 0;
-                if (j == board.length) {
-                    j = 0;
-                }
-            }
-
-            return board[temp_i][temp_j];
-        }
-    }
-
-//    @Override
-//    public Iterator<Tile> iterator() {
-//        return new Iterator<Tile>() {
-//            private int i = 0;
-//            private int j = 0;
-//
-//            @Override
-//            public boolean hasNext() {
-//                return i != board.length - 1 || j != board[i].length - 1;
-//        }
-//
-//            @Override
-//            public Tile next() {
-//
-//                Tile result;
-//
-//                result = board[i][j];
-//                i++;
-//                if (i == board.length) {
-//                    i = 0;
-//                    j++;
-//                }
-//
-//                return result;
-//            }
-//        };
-//    }
-
-    public <T> T putToMedia(BoardMedia<T> media){
-            return media.putBoard(this);
-    }
-
+		@Override
+		public Tile next() {
+			TilePosition position = new TilePosition(pos % 4, pos / 4);
+			pos++;			
+			return tileAt(position);
+		}		
+	}
 }

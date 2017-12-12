@@ -48,5 +48,5 @@ public abstract class Move {
 	}
 
 	public abstract GameState resultState();
-	public abstract boolean isWinning();	
+	public abstract boolean isWinning();
 }

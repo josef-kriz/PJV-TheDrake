@@ -3,32 +3,35 @@ package ovoce.thedrake.game;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StandardDrakeSetup implements TheDrakeSetup {
 	
-	private HashMap<String, TroopInfo> names;
-
-    public StandardDrakeSetup() {
-        names = new HashMap<>();
-        for (TroopInfo info : troops()) {
-            names.put(info.name(), info);
-        };
-    }
-
-    @Override
+	private final Map<String, TroopInfo> infoMap;
+	
+	public StandardDrakeSetup() {
+		infoMap = new HashMap<>();
+		infoMap.put(DRAKE.name(), DRAKE);
+		infoMap.put(CLUBMAN.name(), CLUBMAN);
+		infoMap.put(MONK.name(), MONK);
+		infoMap.put(SPEARMAN.name(), SPEARMAN);
+		infoMap.put(SWORDSMAN.name(), SWORDSMAN);
+		infoMap.put(ARCHER.name(), ARCHER);
+	}
+	
+	@Override
 	public List<TroopInfo> troops() {
 		return Arrays.asList(DRAKE, CLUBMAN, MONK, SPEARMAN, SWORDSMAN, ARCHER);
-	}
-
+	}	
+	
 	@Override
 	public TroopInfo infoByName(String name) {
-        if (names.get(name) != null) {
-            return names.get(name);
-        } else {
-            throw new IllegalArgumentException();
-        }
+		if(infoMap.containsKey(name))
+			return infoMap.get(name);
+		
+		throw new IllegalArgumentException();
 	}
-
+	
 	public final TroopInfo DRAKE = new TroopInfo(
 			"Drake",
 			Arrays.asList(
@@ -102,3 +105,4 @@ public class StandardDrakeSetup implements TheDrakeSetup {
 		      new StrikeAction(1, 1),
 		      new StrikeAction(0, 2)));
 }
+

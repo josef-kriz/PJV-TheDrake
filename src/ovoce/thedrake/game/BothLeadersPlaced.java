@@ -25,14 +25,14 @@ public class BothLeadersPlaced implements Leaders {
 		
 		return orangeLeaderPosition;
 	}
-
-	@Override
-	public <T> T putToMedia(LeadersMedia<T> media) {
-		return media.putBothLeadersPlaced(this);
-	}
-
+	
 	@Override
 	public boolean leaderOn(PlayingSide side, TilePosition position) {
 		return position(side).equals(position);
+	}
+	
+	@Override
+	public <T> T putToMedia(LeadersMedia<T> media) {
+		return media.putBothLeadersPlaced(this);
 	}
 }

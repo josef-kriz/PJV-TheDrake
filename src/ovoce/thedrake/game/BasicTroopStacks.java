@@ -1,11 +1,11 @@
 package ovoce.thedrake.game;
 
-import ovoce.thedrake.media.TroopStacksMedia;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import ovoce.thedrake.media.TroopStacksMedia;
 
 public class BasicTroopStacks implements TroopStacks {
 	private final List<TroopInfo> blueTroops;
@@ -27,12 +27,7 @@ public class BasicTroopStacks implements TroopStacks {
 				Collections.unmodifiableList(blueTroops) :
 				Collections.unmodifiableList(orangeTroops);
 	}
-
-	@Override
-	public <T> T putToMedia(TroopStacksMedia<T> media) {
-		return media.putBasicTroopStacks(this);
-	}
-
+	
 	@Override
 	public BasicTroopStacks pop(PlayingSide side) {
 		if(side == PlayingSide.BLUE) {
@@ -45,5 +40,10 @@ public class BasicTroopStacks implements TroopStacks {
 	public Troop peek(PlayingSide side) {
 		TroopInfo info = side == PlayingSide.BLUE ? blueTroops.get(0) : orangeTroops.get(0); 
 		return new Troop(info, side);
+	}
+	
+	@Override
+	public <T> T putToMedia(TroopStacksMedia<T> media) {
+		return media.putBasicTroopStacks(this);
 	}
 }

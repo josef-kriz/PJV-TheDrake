@@ -13,16 +13,14 @@ public class NoLeadersPlaced implements Leaders {
 	public TilePosition position(PlayingSide side) {
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public <T> T putToMedia(LeadersMedia<T> media) {
-		return media.putNoLeadersPlaced(this);
-	}
-
+	
 	@Override
 	public boolean leaderOn(PlayingSide side, TilePosition position) {
 		return false;
 	}
-
-
+	
+	@Override
+	public <T> T putToMedia(LeadersMedia<T> media) {
+		return media.putNoLeadersPlaced(this);
+	}
 }

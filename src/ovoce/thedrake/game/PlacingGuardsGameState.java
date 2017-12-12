@@ -1,10 +1,10 @@
 package ovoce.thedrake.game;
 
-import ovoce.thedrake.media.GameStateMedia;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import ovoce.thedrake.media.GameStateMedia;
 
 public class PlacingGuardsGameState extends BaseGameState {
 	private final int guardsCount;
@@ -89,12 +89,7 @@ public class PlacingGuardsGameState extends BaseGameState {
 		
 		return result;
 	}
-
-	@Override
-	public <T> T putToMedia(GameStateMedia<T> media) {
-		return media.putPlacingGuardsGameState(this);
-	}
-
+	
 	@Override
 	public boolean isVictory() {
 		return false;
@@ -102,5 +97,10 @@ public class PlacingGuardsGameState extends BaseGameState {
 	
 	private boolean tryNeighbour(TilePosition origin, int xStep, int yStep) {
 		return origin.step(xStep, yStep).equals(leaders().position(sideOnTurn()));		
+	}
+	
+	@Override
+	public <T> T putToMedia(GameStateMedia<T> media) {
+		return media.putPlacingGuardsGameState(this);
 	}
 }

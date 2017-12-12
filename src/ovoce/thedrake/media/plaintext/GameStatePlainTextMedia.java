@@ -1,75 +1,69 @@
 package ovoce.thedrake.media.plaintext;
 
-import ovoce.thedrake.game.*;
-import ovoce.thedrake.media.*;
-
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-public class GameStatePlainTextMedia extends PrintMedia implements GameStateMedia<Void> {
-    private final TroopStacksPlainTextMedia troopMedia;
-    private final LeadersPlainTextMedia leadersMedia;
-    private final BoardPlainTextMedia boardMedia;
+import ovoce.thedrake.game.BaseGameState;
+import ovoce.thedrake.game.MiddleGameState;
+import ovoce.thedrake.game.PlacingGuardsGameState;
+import ovoce.thedrake.game.PlacingLeadersGameState;
+import ovoce.thedrake.game.VictoryGameState;
+import ovoce.thedrake.media.GameStateMedia;
+import ovoce.thedrake.media.PrintMedia;
 
-    public GameStatePlainTextMedia(OutputStream stream) {
-        super(stream);
-        this.troopMedia = new TroopStacksPlainTextMedia(stream);
-        this.leadersMedia = new LeadersPlainTextMedia(stream);
-        this.boardMedia = new BoardPlainTextMedia(stream);
-    }
+public class GameStatePlainTextMedia extends PrintMedia implements GameStateMedia<Void>{
 
-    @Override
-    public Void putPlacingLeadersGameState(PlacingLeadersGameState state) {
-        PrintWriter w = writer();
+	private final BoardPlainTextMedia boardMedia;
+	private final TroopStacksPlainTextMedia stacksMedia;
+	private final LeadersPlainTextMedia leadersMedia;
+	
+	public GameStatePlainTextMedia(OutputStream stream) {
+		super(stream);
+		this.boardMedia = new BoardPlainTextMedia(stream);
+		this.stacksMedia = new TroopStacksPlainTextMedia(stream);
+		this.leadersMedia = new LeadersPlainTextMedia(stream);
+	}
 
-        w.println("LEADERS");
-        w.println("0");
-        w.println(state.sideOnTurn().toString());
-        troopMedia.putBasicTroopStacks((BasicTroopStacks)state.troopStacks());
-        if(state.leaders().isPlaced(PlayingSide.BLUE))
-            leadersMedia.putOneLeaderPlaced((OneLeaderPlaced)state.leaders());
-        else
-            leadersMedia.putNoLeadersPlaced((NoLeadersPlaced)state.leaders());
-        boardMedia.putBoard(state.board());
-        return null;
-    }
+	private void putBaseGameState(BaseGameState state) {		
+		writer().printf(state.sideOnTurn().toString() + "%n");
+		state.troopStacks().putToMedia(stacksMedia);
+		state.leaders().putToMedia(leadersMedia);
+		state.board().putToMedia(boardMedia);		
+	}
+	
+	@Override
+	public Void putMiddleGameState(MiddleGameState state) {
+		PrintWriter w = writer();
+		w.printf("MIDDLE%n");
+		w.printf("4%n");
+		putBaseGameState(state);
+		return null;
+	}
 
-    @Override
-    public Void putPlacingGuardsGameState(PlacingGuardsGameState state) {
-        PrintWriter w = writer();
+	@Override
+	public Void putPlacingLeadersGameState(PlacingLeadersGameState state) {
+		PrintWriter w = writer();
+		w.printf("LEADERS%n");
+		w.printf("0%n");
+		putBaseGameState(state);
+		return null;
+	}
 
-        w.println("GUARDS");
-        w.println(state.guardsCount());
-        w.println(state.sideOnTurn().toString());
-        troopMedia.putBasicTroopStacks((BasicTroopStacks)state.troopStacks());
-        leadersMedia.putBothLeadersPlaced(state.leaders());
-        boardMedia.putBoard(state.board());
-        return null;
-    }
+	@Override
+	public Void putPlacingGuardsGameState(PlacingGuardsGameState state) {
+		PrintWriter w = writer();
+		w.printf("GUARDS%n");
+		w.printf("%d%n", state.guardsCount());
+		putBaseGameState(state);
+		return null;
+	}
 
-    @Override
-    public Void putMiddleGameState(MiddleGameState state) {
-        PrintWriter w = writer();
-
-        w.println("MIDDLE");
-        w.println("4");
-        w.println(state.sideOnTurn().toString());
-        troopMedia.putBasicTroopStacks((BasicTroopStacks)state.troopStacks());
-        leadersMedia.putBothLeadersPlaced(state.leaders());
-        boardMedia.putBoard(state.board());
-        return null;
-    }
-
-    @Override
-    public Void putFinishedGameState(VictoryGameState state) {
-        PrintWriter w = writer();
-
-        w.println("VICTORY");
-        w.println("4");
-        w.println(state.sideOnTurn().toString());
-        troopMedia.putBasicTroopStacks((BasicTroopStacks)state.troopStacks());
-        leadersMedia.putOneLeaderPlaced((OneLeaderPlaced)state.leaders());
-        boardMedia.putBoard(state.board());
-        return null;
-    }
+	@Override
+	public Void putFinishedGameState(VictoryGameState state) {
+		PrintWriter w = writer();
+		w.printf("VICTORY%n");
+		w.printf("4%n");
+		putBaseGameState(state);
+		return null;
+	}
 }
