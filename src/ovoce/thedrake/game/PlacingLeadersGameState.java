@@ -10,14 +10,14 @@ public class PlacingLeadersGameState extends BaseGameState {
 	
 	public PlacingLeadersGameState(TroopStacks troopStacks, Tile... tiles) {
 		super(
-				new Board(4, tiles), 
+				new Board(4, tiles),
 				troopStacks,
 				new NoLeadersPlaced(),						
-				PlayingSide.BLUE); 
+				PlayingSide.BLUE);
 	}
 	
 	public PlacingLeadersGameState(Board board, TroopStacks troopStacks, Leaders leaders, PlayingSide sideOnTurn) {
-		super(board, troopStacks, leaders, sideOnTurn); 
+		super(board, troopStacks, leaders, sideOnTurn);
 	}
 	
 	public PlacingLeadersGameState placeBlueLeader(TilePosition blueLeaderPosition) {
